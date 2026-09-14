@@ -1,120 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <meta name="theme-color" content="#07000e" />
-  <meta name="description" content="An immersive five-chapter birthday experience." />
-  <title>Happy Birthday — Five Little Moments ✨</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="theme-color" content="#07000e"><meta name="description" content="A five-page birthday experience."><title>Happy Birthday — A Little Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css">
 </head>
 <body class="locked">
-  <div class="opening" id="opening">
-    <div class="stars"></div><div class="opening-orb"></div>
-    <div class="opening-content">
-      <div class="opening-symbol">✦</div>
-      <p class="kicker">A SECRET CELEBRATION IS WAITING</p>
-      <h1>Someone's<br><em>birthday...</em></h1>
-      <p id="openingLine">This is not just a birthday page.</p>
-      <button class="enter-btn" id="enterBtn">Enter the story <span>→</span></button>
-      <p class="sound-note">♫ Tap once — your birthday tune will begin</p>
-    </div>
-    <div class="opening-progress"><i></i></div>
-  </div>
-
-  <!-- Background birthday tune. It starts after the visitor taps Enter, then loops. -->
-  <div class="youtube-bg" aria-hidden="true">
-    <iframe id="birthdayYoutube"
-      src="https://www.youtube.com/embed/nAw2ooeubSQ?enablejsapi=1&autoplay=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&loop=1&modestbranding=1&playsinline=1&rel=0&playlist=nAw2ooeubSQ"
-      title="Birthday background music"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      referrerpolicy="strict-origin-when-cross-origin"></iframe>
-  </div>
-
-  <canvas id="particles"></canvas><div class="aurora"></div>
-  <div class="music-control off" id="musicControl" title="Music on / off">♫</div>
-  <div class="chapter-count" id="chapterCount">01 / 05</div>
-  <div class="dots" id="dots"><button class="active"></button><button></button><button></button><button></button><button></button></div>
-
-  <main id="book">
-    <section class="page page-1 active" data-page="1">
-      <div class="page-inner hero-card glass">
-        <span class="chapter">CHAPTER 01 · THE DAY</span>
-        <div class="halo">✦</div>
-        <p class="eyebrow">TODAY IS YOUR DAY</p>
-        <h1>Happy<br><em>Birthday</em></h1>
-        <p class="lead">For one little while, forget the noise outside. This space was made for one simple reason: <strong>to remind you that your life is worth celebrating.</strong></p>
-        <div class="date-pill">✦ TODAY · A NEW MEMORY BEGINS ✦</div>
-        <button class="next-btn" data-next="2">Turn the page <span>→</span></button>
-        <p class="tiny">There are four more surprises waiting...</p>
-      </div>
-    </section>
-
-    <section class="page page-2" data-page="2">
-      <div class="page-inner glass story-card">
-        <span class="chapter">CHAPTER 02 · A LETTER</span>
-        <div class="chapter-number">02</div>
-        <p class="eyebrow">READ THIS SLOWLY</p>
-        <h2>Before I say<br><em>Happy Birthday...</em></h2>
-        <div class="letter">
-          <p>There are people who make a room brighter simply by being in it. People whose presence turns ordinary moments into memories.</p>
-          <p>Today, I hope you remember that you don't have to prove your worth. You don't have to have everything figured out. <strong>You are already enough.</strong></p>
-          <p>May you keep the softness in your heart, the courage in your steps, and the curiosity that makes you look forward to tomorrow.</p>
-        </div>
-        <div class="quote-line">“Your next chapter doesn't need to be perfect. It just needs to be yours.”</div>
-        <button class="next-btn" data-next="3">I have another wish for you <span>→</span></button>
-      </div>
-    </section>
-
-    <section class="page page-3" data-page="3">
-      <div class="page-inner wishes-card">
-        <span class="chapter">CHAPTER 03 · THREE WISHES</span>
-        <p class="eyebrow">A LITTLE MAGIC FOR YOU</p>
-        <h2>Three wishes.<br><em>Three new beginnings.</em></h2>
-        <div class="wish-grid">
-          <article class="wish glass"><b>01</b><span>☀</span><h3>JOY</h3><p>May laughter find you when you least expect it, and may the smallest moments become your favorite memories.</p></article>
-          <article class="wish glass"><b>02</b><span>♡</span><h3>LOVE</h3><p>May you be loved gently, honestly and completely — by others, and especially by yourself.</p></article>
-          <article class="wish glass"><b>03</b><span>∞</span><h3>DREAMS</h3><p>May you become brave enough to chase the life you imagine when nobody else is watching.</p></article>
-        </div>
-        <button class="next-btn" data-next="4">One last little ritual <span>→</span></button>
-      </div>
-    </section>
-
-    <section class="page page-4" data-page="4">
-      <div class="page-inner cake-card glass">
-        <span class="chapter">CHAPTER 04 · MAKE A WISH</span>
-        <p class="eyebrow">THE LIGHT IS YOURS</p>
-        <h2>Close your eyes.<br><em>Wish for something.</em></h2>
-        <p class="lead small">Don't tell anyone. Some wishes are more beautiful when they stay in your heart.</p>
-        <div class="cake-stage">
-          <div class="sparkle s1">✦</div><div class="sparkle s2">✧</div><div class="sparkle s3">✦</div>
-          <div class="cake"><div class="flame"><i></i></div><div class="candle"></div><div class="icing"></div><div class="layer top"></div><div class="layer bottom"></div><div class="sprinkles"></div><div class="plate"></div></div>
-        </div>
-        <button class="wish-btn" id="wishBtn">Make the Wish ✨</button>
-        <p class="wish-result" id="wishResult">The candle is waiting for your wish...</p>
-        <button class="next-btn hidden" id="afterWish" data-next="5">Open your final surprise <span>→</span></button>
-      </div>
-    </section>
-
-    <section class="page page-5" data-page="5">
-      <div class="page-inner final-card glass">
-        <span class="chapter">CHAPTER 05 · YOUR YEAR</span>
-        <div class="final-orb">♡</div>
-        <p class="eyebrow">A WHOLE NEW CHAPTER</p>
-        <div class="big-number">365</div>
-        <h2>Days to laugh.<br>Days to grow.<br><em>Days to become.</em></h2>
-        <p class="lead">Take more pictures. Protect your peace. Say yes to beautiful adventures. Celebrate tiny wins. Let yourself change. And whenever life feels heavy, remember how much life is still waiting to surprise you.</p>
-        <div class="final-wish"><span>MY FINAL WISH FOR YOU</span><strong>“May this be the year you look back on and say — I am so glad I didn't give up on myself.”</strong></div>
-        <div class="signature">With love, always <span>♥</span></div>
-        <button class="replay" id="againBtn">↻ Experience it again</button>
-      </div>
-    </section>
-  </main>
-
-  <div class="toast" id="toast"></div><div class="confetti-layer" id="confetti"></div>
-  <script src="script.js"></script>
-</body>
-</html>
+<div class="opening" id="opening"><div class="stars"></div><div class="opening-orb"></div><div class="opening-content"><div class="opening-symbol">✦</div><p class="kicker">A SECRET CELEBRATION IS WAITING</p><h1>Someone's<br><em>birthday...</em></h1><p>This is a five-page birthday story. Nothing moves until you choose to continue.</p><button class="enter-btn" id="enterBtn">Enter the story <span>→</span></button><p class="sound-note">♫ Tap once — your birthday tune will begin</p></div></div>
+<div class="youtube-bg" aria-hidden="true"><iframe id="birthdayYoutube" src="https://www.youtube.com/embed/nAw2ooeubSQ?enablejsapi=1&autoplay=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&loop=1&modestbranding=1&playsinline=1&rel=0&playlist=nAw2ooeubSQ" title="Birthday background music" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+<canvas id="particles"></canvas><div class="aurora"></div><div class="music-control off" id="musicControl" title="Play birthday tune">♫</div><div class="chapter-count" id="chapterCount">01 / 05</div>
+<main id="book">
+<section class="page page-1 active" data-page="1"><div class="page-inner hero-card glass"><span class="chapter">PAGE 01 · THE DAY</span><div class="halo">✦</div><p class="eyebrow">TODAY IS YOUR DAY</p><h1>Happy<br><em>Birthday</em></h1><p class="lead">For one little while, forget the noise outside. This space was made for one simple reason: <strong>to remind you that your life is worth celebrating.</strong></p><div class="date-pill">✦ TODAY · A NEW MEMORY BEGINS ✦</div><button class="next-btn" data-next="2">Go to Page 02 <span>↓</span></button><p class="tiny">The next page will not open by itself.</p></div></section>
+<section class="page page-2" data-page="2"><div class="page-inner glass story-card"><span class="chapter">PAGE 02 · A LETTER</span><div class="chapter-number">02</div><p class="eyebrow">READ THIS SLOWLY</p><h2>Before I say<br><em>Happy Birthday...</em></h2><div class="letter"><p>There are people who make a room brighter simply by being in it. People whose presence turns ordinary moments into memories.</p><p>Today, I hope you remember that you do not have to prove your worth. You do not have to have everything figured out. <strong>You are already enough.</strong></p><p>May you keep the softness in your heart, the courage in your steps, and the curiosity that makes you look forward to tomorrow.</p></div><div class="quote-line">“Your next chapter does not need to be perfect. It just needs to be yours.”</div><button class="next-btn" data-next="3">Go to Page 03 <span>↓</span></button></div></section>
+<section class="page page-3" data-page="3"><div class="page-inner wishes-card"><span class="chapter">PAGE 03 · THREE WISHES</span><p class="eyebrow">A LITTLE MAGIC FOR YOU</p><h2>Three wishes.<br><em>Three new beginnings.</em></h2><div class="wish-grid"><article class="wish glass"><b>01</b><span>☀</span><h3>JOY</h3><p>May laughter find you when you least expect it, and may the smallest moments become your favorite memories.</p></article><article class="wish glass"><b>02</b><span>♡</span><h3>LOVE</h3><p>May you be loved gently, honestly and completely — by others, and especially by yourself.</p></article><article class="wish glass"><b>03</b><span>∞</span><h3>DREAMS</h3><p>May you become brave enough to chase the life you imagine when nobody else is watching.</p></article></div><button class="next-btn" data-next="4">Go to Page 04 <span>↓</span></button></div></section>
+<section class="page page-4" data-page="4"><div class="page-inner cake-card glass"><span class="chapter">PAGE 04 · MAKE A WISH</span><p class="eyebrow">THE LIGHT IS YOURS</p><h2>Close your eyes.<br><em>Make your wish.</em></h2><p class="lead small">Make a quiet wish, then press the button and watch the cake-cutting celebration.</p><div class="cake-stage" id="cakeStage"><div class="sparkle s1">✦</div><div class="sparkle s2">✧</div><div class="sparkle s3">✦</div><div class="knife" id="knife" aria-hidden="true">🔪</div><div class="cake" id="cake"><div class="flame"><i></i></div><div class="candle"></div><div class="icing"></div><div class="layer top"></div><div class="layer bottom"></div><div class="sprinkles"></div><div class="plate"></div></div></div><button class="wish-btn" id="wishBtn">Make the Wish</button><p class="wish-result" id="wishResult">The candle is waiting for your wish...</p><div class="cut-message" id="cutMessage">Cake cut! A sweet new chapter begins.</div><button class="next-btn hidden" id="afterWish" data-next="5">Go to the Final Page <span>↓</span></button></div></section>
+<section class="page page-5" data-page="5"><div class="page-inner final-card glass"><span class="chapter">PAGE 05 · THE FINAL WISH</span><div class="final-orb">♡</div><p class="eyebrow">A WHOLE NEW CHAPTER</p><div class="big-number">365</div><h2>Days to laugh.<br>Days to grow.<br><em>Days to become.</em></h2><p class="lead">Take more pictures. Protect your peace. Say yes to beautiful adventures. Celebrate tiny wins. Let yourself change. And whenever life feels heavy, remember how much life is still waiting to surprise you.</p><div class="final-wish"><span>MY FINAL WISH FOR YOU</span><strong>“May this be the year you look back on and say — I am so glad I did not give up on myself.”</strong></div><div class="signature">With love, always <span>♥</span></div><button class="replay" id="againBtn">↻ Start Again</button><p class="end-note">You reached the end. Nothing else will open automatically.</p></div></section>
+</main><div class="toast" id="toast"></div><div class="confetti-layer" id="confetti"></div><script src="script.js"></script>
+</body></html>
