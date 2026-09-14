@@ -4,71 +4,113 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#090014" />
-  <meta name="description" content="An interactive magical birthday experience." />
-  <title>Happy Birthday ✨</title>
+  <meta name="description" content="A cinematic interactive birthday experience." />
+  <title>A Little Birthday Magic ✨</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="locked">
+  <div class="opening" id="opening">
+    <div class="opening-stars"></div>
+    <div class="opening-content">
+      <div class="opening-symbol">✦</div>
+      <p class="opening-small">A SPECIAL MOMENT IS WAITING</p>
+      <h1>Someone's<br><em>birthday...</em></h1>
+      <p class="opening-line" id="openingLine">And this isn't an ordinary birthday wish.</p>
+      <button class="enter-btn" id="enterBtn">Begin the Celebration <span>→</span></button>
+      <p class="sound-note">♫ Tap to begin with music & sound</p>
+    </div>
+    <div class="opening-progress"><i></i></div>
+  </div>
+
   <canvas id="particles"></canvas>
   <div class="aurora"></div>
+  <div class="music-control" id="musicControl" title="Music on/off">♫</div>
 
   <main class="experience">
     <section class="hero glass" id="hero">
-      <div class="badge">✦ A little surprise for you ✦</div>
+      <div class="hero-glow"></div>
+      <div class="badge">✦ A little surprise made just for you ✦</div>
       <p class="eyebrow">TODAY IS YOUR DAY</p>
       <h1>Happy<br><span>Birthday</span></h1>
-      <p class="intro">May your new chapter be filled with beautiful moments, genuine smiles, and dreams that finally come true.</p>
-      <button class="primary-btn" id="celebrateBtn">Open Your Surprise <span>→</span></button>
-      <div class="scroll-hint">SCROLL TO DISCOVER <span>↓</span></div>
+      <p class="intro">Take a breath. Turn the sound up. For the next few moments, forget everything else and let this little corner of the internet celebrate <strong>you.</strong></p>
+      <div class="hero-actions">
+        <button class="primary-btn" id="celebrateBtn">Open Your Surprise <span>→</span></button>
+        <button class="ghost-btn" id="skipBtn">Explore gently ↓</button>
+      </div>
+      <div class="scroll-hint">THE STORY BEGINS HERE <span>↓</span></div>
     </section>
 
-    <section class="message section glass reveal">
-      <div class="section-label">01 / A MESSAGE</div>
-      <div class="message-grid">
+    <section class="story section glass reveal">
+      <div class="section-label">01 / BEFORE THE WISH</div>
+      <div class="story-grid">
         <div>
-          <p class="eyebrow">FROM THE HEART</p>
-          <h2>For someone<br><em>truly special.</em></h2>
+          <p class="eyebrow">A SMALL REMINDER</p>
+          <h2>Some days deserve<br><em>to feel different.</em></h2>
         </div>
         <div class="letter">
-          <p>Today isn't just another date on the calendar. It's a reminder that the world became a little brighter the day you arrived.</p>
-          <p>Keep chasing what makes your heart happy. Keep believing in yourself. And when life gets difficult, remember how many beautiful chapters are still waiting for you.</p>
-          <strong>Here's to you, your dreams, and an unforgettable year ahead. ♡</strong>
+          <p>Today is more than a date on a calendar. It's a tiny pause in the rush of life — a chance to look back, smile at how far you've come, and look forward to everything that hasn't happened yet.</p>
+          <p>So before the candles, before the wishes, before the celebration… remember this: <strong>your existence itself is worth celebrating.</strong></p>
+          <div class="mini-sign">Keep this moment. ♡</div>
         </div>
+      </div>
+    </section>
+
+    <section class="message section reveal">
+      <div class="section-label">02 / A MESSAGE</div>
+      <div class="message-card glass">
+        <div class="quote-mark">“</div>
+        <p class="eyebrow">FROM THE HEART</p>
+        <h2>For someone<br><em>truly special.</em></h2>
+        <p class="big-message">May this new chapter bring you peaceful mornings, unexpected laughter, people who choose you, and the courage to chase the things that make your heart come alive.</p>
+        <p class="big-message">When life gets difficult, remember how many beautiful chapters are still waiting for you.</p>
+        <strong>Here's to you, your dreams, and an unforgettable year ahead. ♥</strong>
       </div>
     </section>
 
     <section class="wishes section reveal">
-      <div class="section-label">02 / WISHES</div>
-      <h2>Three wishes.<br><em>Infinite possibilities.</em></h2>
+      <div class="section-label">03 / THREE LITTLE WISHES</div>
+      <h2>Not just wishes.<br><em>Little promises.</em></h2>
       <div class="wish-grid">
-        <article class="wish-card glass"><span>01</span><div class="icon">✦</div><h3>Joy</h3><p>May ordinary days become extraordinary memories.</p></article>
-        <article class="wish-card glass"><span>02</span><div class="icon">♡</div><h3>Love</h3><p>May you always be surrounded by people who truly care.</p></article>
-        <article class="wish-card glass"><span>03</span><div class="icon">∞</div><h3>Dreams</h3><p>May every brave step take you closer to your biggest dreams.</p></article>
+        <article class="wish-card glass"><span>01</span><div class="icon">✦</div><h3>Joy</h3><p>May ordinary days suddenly become the memories you never want to forget.</p></article>
+        <article class="wish-card glass"><span>02</span><div class="icon">♡</div><h3>Love</h3><p>May you always be surrounded by people who see your heart and value it.</p></article>
+        <article class="wish-card glass"><span>03</span><div class="icon">∞</div><h3>Dreams</h3><p>May every brave step take you closer to the life you've secretly imagined.</p></article>
       </div>
     </section>
 
     <section class="cake-section section reveal" id="cakeSection">
-      <div class="section-label">03 / MAKE A WISH</div>
+      <div class="section-label">04 / THE SPECIAL MOMENT</div>
+      <p class="eyebrow">NOW, MAKE IT COUNT</p>
       <h2>Close your eyes.<br><em>Make a wish.</em></h2>
+      <p class="cake-intro">One candle. One secret wish. One beautiful new beginning.</p>
       <div class="cake-wrap">
         <div class="cake">
           <div class="flame"><i></i></div><div class="candle"></div>
           <div class="icing"></div><div class="layer top"></div><div class="layer bottom"></div>
-          <div class="plate"></div>
+          <div class="sprinkles"></div><div class="plate"></div>
         </div>
       </div>
       <button class="secondary-btn" id="wishBtn">Make a Wish ✨</button>
-      <p class="wish-result" id="wishResult">Tap the button when you're ready...</p>
+      <p class="wish-result" id="wishResult">Take your time… there is no rush.</p>
+    </section>
+
+    <section class="memory section glass reveal">
+      <div class="section-label">05 / A NEW CHAPTER</div>
+      <div class="memory-inner">
+        <div class="memory-number">365</div>
+        <p class="eyebrow">NEW MOMENTS AHEAD</p>
+        <h2>A whole year<br><em>to become.</em></h2>
+        <p>365 new mornings. Countless tiny adventures. New people, new places, new reasons to smile. Don't try to make every day perfect — just make it yours.</p>
+      </div>
     </section>
 
     <section class="final section glass reveal">
       <div class="final-orb">♡</div>
       <p class="eyebrow">ONE LAST THING</p>
       <h2>This year,<br><em>choose yourself.</em></h2>
-      <p>Take more pictures. Laugh a little louder. Say yes to adventures. Protect your peace. And never forget just how far you've come.</p>
+      <p>Take more pictures. Laugh a little louder. Say yes to adventures. Protect your peace. Celebrate the small wins. And never forget just how far you've come.</p>
       <div class="signature">With love, always <span>♥</span></div>
       <button class="primary-btn" id="againBtn">Replay the Magic ↻</button>
     </section>
