@@ -20,9 +20,18 @@
       <h1>Someone's<br><em>birthday...</em></h1>
       <p id="openingLine">This is not just a birthday page.</p>
       <button class="enter-btn" id="enterBtn">Enter the story <span>→</span></button>
-      <p class="sound-note">♫ Tap once — the birthday song will begin</p>
+      <p class="sound-note">♫ Tap once — your birthday tune will begin</p>
     </div>
     <div class="opening-progress"><i></i></div>
+  </div>
+
+  <!-- Background birthday tune. It starts after the visitor taps Enter, then loops. -->
+  <div class="youtube-bg" aria-hidden="true">
+    <iframe id="birthdayYoutube"
+      src="https://www.youtube.com/embed/nAw2ooeubSQ?enablejsapi=1&autoplay=0&controls=0&disablekb=1&fs=0&iv_load_policy=3&loop=1&modestbranding=1&playsinline=1&rel=0&playlist=nAw2ooeubSQ"
+      title="Birthday background music"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
   </div>
 
   <canvas id="particles"></canvas><div class="aurora"></div>
