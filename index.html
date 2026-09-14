@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090014" />
+  <meta name="description" content="An interactive magical birthday experience." />
+  <title>Happy Birthday ✨</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="particles"></canvas>
+  <div class="aurora"></div>
+
+  <main class="experience">
+    <section class="hero glass" id="hero">
+      <div class="badge">✦ A little surprise for you ✦</div>
+      <p class="eyebrow">TODAY IS YOUR DAY</p>
+      <h1>Happy<br><span>Birthday</span></h1>
+      <p class="intro">May your new chapter be filled with beautiful moments, genuine smiles, and dreams that finally come true.</p>
+      <button class="primary-btn" id="celebrateBtn">Open Your Surprise <span>→</span></button>
+      <div class="scroll-hint">SCROLL TO DISCOVER <span>↓</span></div>
+    </section>
+
+    <section class="message section glass reveal">
+      <div class="section-label">01 / A MESSAGE</div>
+      <div class="message-grid">
+        <div>
+          <p class="eyebrow">FROM THE HEART</p>
+          <h2>For someone<br><em>truly special.</em></h2>
+        </div>
+        <div class="letter">
+          <p>Today isn't just another date on the calendar. It's a reminder that the world became a little brighter the day you arrived.</p>
+          <p>Keep chasing what makes your heart happy. Keep believing in yourself. And when life gets difficult, remember how many beautiful chapters are still waiting for you.</p>
+          <strong>Here's to you, your dreams, and an unforgettable year ahead. ♡</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="wishes section reveal">
+      <div class="section-label">02 / WISHES</div>
+      <h2>Three wishes.<br><em>Infinite possibilities.</em></h2>
+      <div class="wish-grid">
+        <article class="wish-card glass"><span>01</span><div class="icon">✦</div><h3>Joy</h3><p>May ordinary days become extraordinary memories.</p></article>
+        <article class="wish-card glass"><span>02</span><div class="icon">♡</div><h3>Love</h3><p>May you always be surrounded by people who truly care.</p></article>
+        <article class="wish-card glass"><span>03</span><div class="icon">∞</div><h3>Dreams</h3><p>May every brave step take you closer to your biggest dreams.</p></article>
+      </div>
+    </section>
+
+    <section class="cake-section section reveal" id="cakeSection">
+      <div class="section-label">03 / MAKE A WISH</div>
+      <h2>Close your eyes.<br><em>Make a wish.</em></h2>
+      <div class="cake-wrap">
+        <div class="cake">
+          <div class="flame"><i></i></div><div class="candle"></div>
+          <div class="icing"></div><div class="layer top"></div><div class="layer bottom"></div>
+          <div class="plate"></div>
+        </div>
+      </div>
+      <button class="secondary-btn" id="wishBtn">Make a Wish ✨</button>
+      <p class="wish-result" id="wishResult">Tap the button when you're ready...</p>
+    </section>
+
+    <section class="final section glass reveal">
+      <div class="final-orb">♡</div>
+      <p class="eyebrow">ONE LAST THING</p>
+      <h2>This year,<br><em>choose yourself.</em></h2>
+      <p>Take more pictures. Laugh a little louder. Say yes to adventures. Protect your peace. And never forget just how far you've come.</p>
+      <div class="signature">With love, always <span>♥</span></div>
+      <button class="primary-btn" id="againBtn">Replay the Magic ↻</button>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">✨ Your wish has been sent to the universe!</div>
+  <div class="confetti-layer" id="confetti"></div>
+  <script src="script.js"></script>
+</body>
+</html>
