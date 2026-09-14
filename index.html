@@ -2,122 +2,110 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#090014" />
-  <meta name="description" content="A cinematic interactive birthday experience." />
-  <title>A Little Birthday Magic ✨</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="theme-color" content="#07000e" />
+  <meta name="description" content="An immersive five-chapter birthday experience." />
+  <title>Happy Birthday — Five Little Moments ✨</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="locked">
   <div class="opening" id="opening">
-    <div class="opening-stars"></div>
+    <div class="stars"></div><div class="opening-orb"></div>
     <div class="opening-content">
       <div class="opening-symbol">✦</div>
-      <p class="opening-small">A SPECIAL MOMENT IS WAITING</p>
+      <p class="kicker">A SECRET CELEBRATION IS WAITING</p>
       <h1>Someone's<br><em>birthday...</em></h1>
-      <p class="opening-line" id="openingLine">And this isn't an ordinary birthday wish.</p>
-      <button class="enter-btn" id="enterBtn">Begin the Celebration <span>→</span></button>
-      <p class="sound-note">♫ Tap to begin with music & sound</p>
+      <p id="openingLine">This is not just a birthday page.</p>
+      <button class="enter-btn" id="enterBtn">Enter the story <span>→</span></button>
+      <p class="sound-note">♫ Tap once — the birthday song will begin</p>
     </div>
     <div class="opening-progress"><i></i></div>
   </div>
 
-  <canvas id="particles"></canvas>
-  <div class="aurora"></div>
-  <div class="music-control" id="musicControl" title="Music on/off">♫</div>
+  <canvas id="particles"></canvas><div class="aurora"></div>
+  <div class="music-control off" id="musicControl" title="Music on / off">♫</div>
+  <div class="chapter-count" id="chapterCount">01 / 05</div>
+  <div class="dots" id="dots"><button class="active"></button><button></button><button></button><button></button><button></button></div>
 
-  <main class="experience">
-    <section class="hero glass" id="hero">
-      <div class="hero-glow"></div>
-      <div class="badge">✦ A little surprise made just for you ✦</div>
-      <p class="eyebrow">TODAY IS YOUR DAY</p>
-      <h1>Happy<br><span>Birthday</span></h1>
-      <p class="intro">Take a breath. Turn the sound up. For the next few moments, forget everything else and let this little corner of the internet celebrate <strong>you.</strong></p>
-      <div class="hero-actions">
-        <button class="primary-btn" id="celebrateBtn">Open Your Surprise <span>→</span></button>
-        <button class="ghost-btn" id="skipBtn">Explore gently ↓</button>
+  <main id="book">
+    <section class="page page-1 active" data-page="1">
+      <div class="page-inner hero-card glass">
+        <span class="chapter">CHAPTER 01 · THE DAY</span>
+        <div class="halo">✦</div>
+        <p class="eyebrow">TODAY IS YOUR DAY</p>
+        <h1>Happy<br><em>Birthday</em></h1>
+        <p class="lead">For one little while, forget the noise outside. This space was made for one simple reason: <strong>to remind you that your life is worth celebrating.</strong></p>
+        <div class="date-pill">✦ TODAY · A NEW MEMORY BEGINS ✦</div>
+        <button class="next-btn" data-next="2">Turn the page <span>→</span></button>
+        <p class="tiny">There are four more surprises waiting...</p>
       </div>
-      <div class="scroll-hint">THE STORY BEGINS HERE <span>↓</span></div>
     </section>
 
-    <section class="story section glass reveal">
-      <div class="section-label">01 / BEFORE THE WISH</div>
-      <div class="story-grid">
-        <div>
-          <p class="eyebrow">A SMALL REMINDER</p>
-          <h2>Some days deserve<br><em>to feel different.</em></h2>
-        </div>
+    <section class="page page-2" data-page="2">
+      <div class="page-inner glass story-card">
+        <span class="chapter">CHAPTER 02 · A LETTER</span>
+        <div class="chapter-number">02</div>
+        <p class="eyebrow">READ THIS SLOWLY</p>
+        <h2>Before I say<br><em>Happy Birthday...</em></h2>
         <div class="letter">
-          <p>Today is more than a date on a calendar. It's a tiny pause in the rush of life — a chance to look back, smile at how far you've come, and look forward to everything that hasn't happened yet.</p>
-          <p>So before the candles, before the wishes, before the celebration… remember this: <strong>your existence itself is worth celebrating.</strong></p>
-          <div class="mini-sign">Keep this moment. ♡</div>
+          <p>There are people who make a room brighter simply by being in it. People whose presence turns ordinary moments into memories.</p>
+          <p>Today, I hope you remember that you don't have to prove your worth. You don't have to have everything figured out. <strong>You are already enough.</strong></p>
+          <p>May you keep the softness in your heart, the courage in your steps, and the curiosity that makes you look forward to tomorrow.</p>
         </div>
+        <div class="quote-line">“Your next chapter doesn't need to be perfect. It just needs to be yours.”</div>
+        <button class="next-btn" data-next="3">I have another wish for you <span>→</span></button>
       </div>
     </section>
 
-    <section class="message section reveal">
-      <div class="section-label">02 / A MESSAGE</div>
-      <div class="message-card glass">
-        <div class="quote-mark">“</div>
-        <p class="eyebrow">FROM THE HEART</p>
-        <h2>For someone<br><em>truly special.</em></h2>
-        <p class="big-message">May this new chapter bring you peaceful mornings, unexpected laughter, people who choose you, and the courage to chase the things that make your heart come alive.</p>
-        <p class="big-message">When life gets difficult, remember how many beautiful chapters are still waiting for you.</p>
-        <strong>Here's to you, your dreams, and an unforgettable year ahead. ♥</strong>
-      </div>
-    </section>
-
-    <section class="wishes section reveal">
-      <div class="section-label">03 / THREE LITTLE WISHES</div>
-      <h2>Not just wishes.<br><em>Little promises.</em></h2>
-      <div class="wish-grid">
-        <article class="wish-card glass"><span>01</span><div class="icon">✦</div><h3>Joy</h3><p>May ordinary days suddenly become the memories you never want to forget.</p></article>
-        <article class="wish-card glass"><span>02</span><div class="icon">♡</div><h3>Love</h3><p>May you always be surrounded by people who see your heart and value it.</p></article>
-        <article class="wish-card glass"><span>03</span><div class="icon">∞</div><h3>Dreams</h3><p>May every brave step take you closer to the life you've secretly imagined.</p></article>
-      </div>
-    </section>
-
-    <section class="cake-section section reveal" id="cakeSection">
-      <div class="section-label">04 / THE SPECIAL MOMENT</div>
-      <p class="eyebrow">NOW, MAKE IT COUNT</p>
-      <h2>Close your eyes.<br><em>Make a wish.</em></h2>
-      <p class="cake-intro">One candle. One secret wish. One beautiful new beginning.</p>
-      <div class="cake-wrap">
-        <div class="cake">
-          <div class="flame"><i></i></div><div class="candle"></div>
-          <div class="icing"></div><div class="layer top"></div><div class="layer bottom"></div>
-          <div class="sprinkles"></div><div class="plate"></div>
+    <section class="page page-3" data-page="3">
+      <div class="page-inner wishes-card">
+        <span class="chapter">CHAPTER 03 · THREE WISHES</span>
+        <p class="eyebrow">A LITTLE MAGIC FOR YOU</p>
+        <h2>Three wishes.<br><em>Three new beginnings.</em></h2>
+        <div class="wish-grid">
+          <article class="wish glass"><b>01</b><span>☀</span><h3>JOY</h3><p>May laughter find you when you least expect it, and may the smallest moments become your favorite memories.</p></article>
+          <article class="wish glass"><b>02</b><span>♡</span><h3>LOVE</h3><p>May you be loved gently, honestly and completely — by others, and especially by yourself.</p></article>
+          <article class="wish glass"><b>03</b><span>∞</span><h3>DREAMS</h3><p>May you become brave enough to chase the life you imagine when nobody else is watching.</p></article>
         </div>
-      </div>
-      <button class="secondary-btn" id="wishBtn">Make a Wish ✨</button>
-      <p class="wish-result" id="wishResult">Take your time… there is no rush.</p>
-    </section>
-
-    <section class="memory section glass reveal">
-      <div class="section-label">05 / A NEW CHAPTER</div>
-      <div class="memory-inner">
-        <div class="memory-number">365</div>
-        <p class="eyebrow">NEW MOMENTS AHEAD</p>
-        <h2>A whole year<br><em>to become.</em></h2>
-        <p>365 new mornings. Countless tiny adventures. New people, new places, new reasons to smile. Don't try to make every day perfect — just make it yours.</p>
+        <button class="next-btn" data-next="4">One last little ritual <span>→</span></button>
       </div>
     </section>
 
-    <section class="final section glass reveal">
-      <div class="final-orb">♡</div>
-      <p class="eyebrow">ONE LAST THING</p>
-      <h2>This year,<br><em>choose yourself.</em></h2>
-      <p>Take more pictures. Laugh a little louder. Say yes to adventures. Protect your peace. Celebrate the small wins. And never forget just how far you've come.</p>
-      <div class="signature">With love, always <span>♥</span></div>
-      <button class="primary-btn" id="againBtn">Replay the Magic ↻</button>
+    <section class="page page-4" data-page="4">
+      <div class="page-inner cake-card glass">
+        <span class="chapter">CHAPTER 04 · MAKE A WISH</span>
+        <p class="eyebrow">THE LIGHT IS YOURS</p>
+        <h2>Close your eyes.<br><em>Wish for something.</em></h2>
+        <p class="lead small">Don't tell anyone. Some wishes are more beautiful when they stay in your heart.</p>
+        <div class="cake-stage">
+          <div class="sparkle s1">✦</div><div class="sparkle s2">✧</div><div class="sparkle s3">✦</div>
+          <div class="cake"><div class="flame"><i></i></div><div class="candle"></div><div class="icing"></div><div class="layer top"></div><div class="layer bottom"></div><div class="sprinkles"></div><div class="plate"></div></div>
+        </div>
+        <button class="wish-btn" id="wishBtn">Make the Wish ✨</button>
+        <p class="wish-result" id="wishResult">The candle is waiting for your wish...</p>
+        <button class="next-btn hidden" id="afterWish" data-next="5">Open your final surprise <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="page page-5" data-page="5">
+      <div class="page-inner final-card glass">
+        <span class="chapter">CHAPTER 05 · YOUR YEAR</span>
+        <div class="final-orb">♡</div>
+        <p class="eyebrow">A WHOLE NEW CHAPTER</p>
+        <div class="big-number">365</div>
+        <h2>Days to laugh.<br>Days to grow.<br><em>Days to become.</em></h2>
+        <p class="lead">Take more pictures. Protect your peace. Say yes to beautiful adventures. Celebrate tiny wins. Let yourself change. And whenever life feels heavy, remember how much life is still waiting to surprise you.</p>
+        <div class="final-wish"><span>MY FINAL WISH FOR YOU</span><strong>“May this be the year you look back on and say — I am so glad I didn't give up on myself.”</strong></div>
+        <div class="signature">With love, always <span>♥</span></div>
+        <button class="replay" id="againBtn">↻ Experience it again</button>
+      </div>
     </section>
   </main>
 
-  <div class="toast" id="toast">✨ Your wish has been sent to the universe!</div>
-  <div class="confetti-layer" id="confetti"></div>
+  <div class="toast" id="toast"></div><div class="confetti-layer" id="confetti"></div>
   <script src="script.js"></script>
 </body>
 </html>
