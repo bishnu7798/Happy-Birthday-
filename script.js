@@ -2,100 +2,47 @@ const canvas=document.getElementById('particles');
 const ctx=canvas.getContext('2d');
 let particles=[];
 function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
-resize();
-addEventListener('resize',resize);
+resize();addEventListener('resize',resize);
 for(let i=0;i<150;i++)particles.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.8+.3,v:Math.random()*.35+.08,a:Math.random()*6.28});
-function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);for(const p of particles){p.y-=p.v;p.x+=Math.sin(p.a+=.005)*.12;if(p.y<0)p.y=canvas.height;ctx.globalAlpha=.12+Math.random()*.4;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill()}requestAnimationFrame(animate)}
-animate();
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);for(const p of particles){p.y-=p.v;p.x+=Math.sin(p.a+=.005)*.12;if(p.y<0)p.y=canvas.height;ctx.globalAlpha=.12+Math.random()*.4;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill()}requestAnimationFrame(animate)}animate();
 
-// Opening typewriter
+// No automatic page changes. The visitor controls every step.
 const opening=document.getElementById('opening');
 const enterBtn=document.getElementById('enterBtn');
-const openingLine=document.getElementById('openingLine');
-const introLines=[
-  'This is not just a birthday page.',
-  'It is five little moments made especially for today.',
-  'There will be wishes, a song, a candle, and a surprise.',
-  'Ready? Let the celebration begin. ✨'
-];
-let li=0;
-function typeLine(text){openingLine.textContent='';let i=0;const t=setInterval(()=>{openingLine.textContent+=text[i++]||'';if(i>text.length)clearInterval(t)},35)}
-setTimeout(()=>typeLine(introLines[0]),700);
-const introTimer=setInterval(()=>{li++;if(li<introLines.length)typeLine(introLines[li]);else clearInterval(introTimer)},2300);
+const pages=[...document.querySelectorAll('.page')];
+const count=document.getElementById('chapterCount');
+let current=1;
 
-// YouTube background music — the exact tune supplied by the user.
-// It begins from the Enter button click (a real user gesture), then loops continuously.
+function showPage(n){
+  n=Math.max(1,Math.min(pages.length,n));
+  current=n;
+  pages.forEach((page,i)=>page.classList.toggle('active',i===n-1));
+  count.textContent=String(n).padStart(2,'0')+' / '+String(pages.length).padStart(2,'0');
+  if(n>1)pages[n-1].scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+document.querySelectorAll('[data-next]').forEach(button=>button.addEventListener('click',()=>showPage(Number(button.dataset.next))));
+
+// Exact YouTube tune supplied by the user. It starts only after the Enter click.
 const youtubeFrame=document.getElementById('birthdayYoutube');
 let musicOn=false;
-let youtubeReady=false;
-function youtubeCommand(command){
-  if(!youtubeFrame||!youtubeFrame.contentWindow)return;
-  youtubeFrame.contentWindow.postMessage(JSON.stringify({event:'command',func:command,args:[]}),'*');
+function youtubeCommand(func,args=[]){
+  if(!youtubeFrame?.contentWindow)return;
+  youtubeFrame.contentWindow.postMessage(JSON.stringify({event:'command',func,args}),'*');
 }
-window.addEventListener('message',event=>{
-  try{
-    const data=typeof event.data==='string'?JSON.parse(event.data):event.data;
-    if(data&&data.event==='onReady')youtubeReady=true;
-  }catch(_){/* ignore non-JSON YouTube messages */}
-});
-// Ask the YouTube player to initialize its JS API.
-setTimeout(()=>{youtubeFrame?.contentWindow?.postMessage(JSON.stringify({event:'listening'}),'*')},300);
 function startMusic(){
   musicOn=true;
   youtubeCommand('playVideo');
   youtubeCommand('unMute');
-  youtubeCommand('setVolume');
-  const musicControl=document.getElementById('musicControl');
-  musicControl.classList.remove('off');
-  musicControl.textContent='♫';
-  musicControl.title='Birthday tune — turn music off';
-  showToast('♫ Birthday tune is playing');
+  youtubeCommand('setVolume',[70]);
+  const control=document.getElementById('musicControl');
+  control.classList.remove('off');control.textContent='♫';control.title='Turn birthday tune off';
 }
 function stopMusic(){
-  musicOn=false;
-  youtubeCommand('pauseVideo');
-  const musicControl=document.getElementById('musicControl');
-  musicControl.classList.add('off');
-  musicControl.textContent='🔇';
-  musicControl.title='Play birthday tune';
+  musicOn=false;youtubeCommand('pauseVideo');
+  const control=document.getElementById('musicControl');
+  control.classList.add('off');control.textContent='🔇';control.title='Play birthday tune';
 }
-
-// Five-screen navigation — intentionally BUTTON ONLY.
-// Mouse wheel, keyboard arrows, dots and swipe do NOT change pages.
-const pages=[...document.querySelectorAll('.page')];
-const dots=[...document.querySelectorAll('#dots button')];
-const count=document.getElementById('chapterCount');
-let current=1;
-function showPage(n,dir=1){
-  n=Math.max(1,Math.min(5,n));
-  if(n===current&&pages[n-1].classList.contains('active'))return;
-  pages[current-1].classList.remove('active');
-  current=n;
-  pages[current-1].classList.add('active');
-  count.textContent=String(current).padStart(2,'0')+' / 05';
-  dots.forEach((d,i)=>d.classList.toggle('active',i===current-1));
-  if(dir>0)burst(current===5?180:70);
-}
-document.querySelectorAll('[data-next]').forEach(button=>button.addEventListener('click',()=>showPage(Number(button.dataset.next),1)));
-// Progress dots are visual only — no click navigation.
-dots.forEach(dot=>{dot.setAttribute('aria-hidden','true');dot.tabIndex=-1;dot.style.cursor='default'});
-
-// Confetti and surprise messages
-const confetti=document.getElementById('confetti');
-const toast=document.getElementById('toast');
-function burst(count=100){
-  for(let i=0;i<count;i++){
-    const el=document.createElement('i');
-    el.className='confetti';
-    el.style.left=Math.random()*100+'%';
-    el.style.animationDelay=Math.random()*.65+'s';
-    el.style.background=['#ff72b6','#fff','#a58bff','#65dcff','#ffd166'][Math.floor(Math.random()*5)];
-    el.style.borderRadius=Math.random()>.5?'50%':'2px';
-    confetti.appendChild(el);
-    setTimeout(()=>el.remove(),3500);
-  }
-}
-function showToast(text){toast.textContent=text;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3400)}
 
 function enterExperience(){
   document.body.classList.remove('locked');
@@ -104,30 +51,53 @@ function enterExperience(){
   burst(110);
   showPage(1);
 }
-enterBtn.onclick=enterExperience;
-document.getElementById('musicControl').onclick=()=>musicOn?stopMusic():startMusic();
+enterBtn.addEventListener('click',enterExperience);
+document.getElementById('musicControl').addEventListener('click',()=>musicOn?stopMusic():startMusic());
 
-// Wish interaction: candle reacts, screen celebrates, and final chapter unlocks.
+// Celebration effects
+const confetti=document.getElementById('confetti');
+const toast=document.getElementById('toast');
+function burst(amount=100){
+  for(let i=0;i<amount;i++){
+    const el=document.createElement('i');el.className='confetti';
+    el.style.left=Math.random()*100+'%';
+    el.style.animationDelay=Math.random()*.65+'s';
+    el.style.background=['#ff72b6','#fff','#a58bff','#65dcff','#ffd166'][Math.floor(Math.random()*5)];
+    el.style.borderRadius=Math.random()>.5?'50%':'2px';
+    confetti.appendChild(el);setTimeout(()=>el.remove(),3500);
+  }
+}
+function showToast(text){toast.textContent=text;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3000)}
+
+// Cake wish + cutting animation. The final page unlocks only after this button is pressed.
 const wishBtn=document.getElementById('wishBtn');
 const wishResult=document.getElementById('wishResult');
 const afterWish=document.getElementById('afterWish');
-wishBtn.onclick=()=>{
+const cakeStage=document.getElementById('cakeStage');
+const cutMessage=document.getElementById('cutMessage');
+let wished=false;
+
+wishBtn.addEventListener('click',()=>{
+  if(wished)return;
+  wished=true;
   wishBtn.disabled=true;
-  wishBtn.textContent='Wish Received ✨';
+  wishBtn.textContent='Wish Received';
   wishResult.textContent='Your wish is safe now — between your heart and the universe.';
-  document.querySelector('.cake-stage').classList.add('wish-made');
+  cakeStage.classList.add('cutting');
   burst(180);
-  showToast('✨ Your wish has been sent into the stars.');
-  setTimeout(()=>afterWish.classList.remove('hidden'),900);
-};
+  showToast('Your wish is on its way to the stars.');
+  setTimeout(()=>cutMessage.classList.add('show'),1500);
+  setTimeout(()=>afterWish.classList.remove('hidden'),2100);
+});
 
-document.getElementById('againBtn').onclick=()=>{
-  showPage(1,-1);
-  burst(140);
-  showToast('✨ The magic begins again.');
-};
+// Start again is also manual: it returns to Page 01 only when clicked.
+document.getElementById('againBtn').addEventListener('click',()=>{
+  window.scrollTo({top:0,behavior:'smooth'});
+  showPage(1);
+  burst(100);
+});
 
-// Desktop pointer light
+// Gentle pointer glow only; it never changes pages.
 if(matchMedia('(pointer:fine)').matches){
   document.querySelectorAll('.glass,.wish').forEach(card=>card.addEventListener('pointermove',e=>{
     const r=card.getBoundingClientRect();
