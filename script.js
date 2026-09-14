@@ -23,83 +23,41 @@ function typeLine(text){openingLine.textContent='';let i=0;const t=setInterval((
 setTimeout(()=>typeLine(introLines[0]),700);
 const introTimer=setInterval(()=>{li++;if(li<introLines.length)typeLine(introLines[li]);else clearInterval(introTimer)},2300);
 
-// Real-time Web Audio version of the familiar Happy Birthday melody.
-// It starts only after the visitor presses Enter, which avoids browser autoplay blocking.
-let audioCtx=null;
-let master=null;
+// YouTube background music — the exact tune supplied by the user.
+// It begins from the Enter button click (a real user gesture), then loops continuously.
+const youtubeFrame=document.getElementById('birthdayYoutube');
 let musicOn=false;
-let songTimer=null;
-const beat=.34;
-const birthdaySong=[
-  [261.63,1],[261.63,1],[293.66,2],[261.63,2],[349.23,2],[329.63,4],
-  [261.63,1],[261.63,1],[293.66,2],[261.63,2],[392.00,2],[349.23,4],
-  [261.63,1],[261.63,1],[523.25,2],[440.00,2],[349.23,2],[329.63,2],[293.66,4],
-  [466.16,1],[466.16,1],[440.00,2],[349.23,2],[392.00,2],[349.23,4]
-];
-const chords=[
-  [130.81,164.81,196.00],[130.81,164.81,196.00],
-  [146.83,174.61,220.00],[146.83,174.61,220.00],
-  [174.61,220.00,261.63],[164.81,196.00,246.94],
-  [130.81,164.81,196.00],[130.81,164.81,196.00],
-  [146.83,174.61,220.00],[146.83,174.61,220.00],
-  [196.00,246.94,293.66],[174.61,220.00,261.63],
-  [130.81,164.81,196.00],[130.81,164.81,196.00],
-  [261.63,329.63,392.00],[220.00,277.18,329.63],
-  [174.61,220.00,261.63],[164.81,196.00,246.94],[146.83,174.61,220.00],
-  [233.08,293.66,349.23],[233.08,293.66,349.23],
-  [220.00,277.18,329.63],[174.61,220.00,261.63],
-  [196.00,246.94,293.66],[174.61,220.00,261.63]
-];
-function playNote(freq,time,duration,type='triangle',volume=.075){
-  if(!audioCtx||!master)return;
-  const osc=audioCtx.createOscillator();
-  const gain=audioCtx.createGain();
-  osc.type=type;
-  osc.frequency.setValueAtTime(freq,time);
-  gain.gain.setValueAtTime(.0001,time);
-  gain.gain.exponentialRampToValueAtTime(volume,time+.025);
-  gain.gain.exponentialRampToValueAtTime(.0001,time+Math.max(.06,duration-.035));
-  osc.connect(gain);gain.connect(master);
-  osc.start(time);osc.stop(time+duration);
+let youtubeReady=false;
+function youtubeCommand(command){
+  if(!youtubeFrame||!youtubeFrame.contentWindow)return;
+  youtubeFrame.contentWindow.postMessage(JSON.stringify({event:'command',func:command,args:[]}),'*');
 }
-function scheduleBirthdaySong(){
-  if(!musicOn||!audioCtx)return;
-  const now=audioCtx.currentTime+.06;
-  let offset=0;
-  birthdaySong.forEach((item,index)=>{
-    const [freq,beats]=item;
-    const duration=beats*beat;
-    playNote(freq,now+offset,duration*.9,'triangle',.095);
-    if(chords[index]){
-      chords[index].forEach(chordFreq=>playNote(chordFreq,now+offset,duration*.82,'sine',.018));
-    }
-    offset+=duration;
-  });
-  songTimer=setTimeout(scheduleBirthdaySong,offset*1000-80);
-}
+window.addEventListener('message',event=>{
+  try{
+    const data=typeof event.data==='string'?JSON.parse(event.data):event.data;
+    if(data&&data.event==='onReady')youtubeReady=true;
+  }catch(_){/* ignore non-JSON YouTube messages */}
+});
+// Ask the YouTube player to initialize its JS API.
+setTimeout(()=>{youtubeFrame?.contentWindow?.postMessage(JSON.stringify({event:'listening'}),'*')},300);
 function startMusic(){
-  audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
-  if(audioCtx.state==='suspended')audioCtx.resume();
-  if(master)master.disconnect();
-  master=audioCtx.createGain();
-  master.gain.value=.82;
-  master.connect(audioCtx.destination);
   musicOn=true;
-  scheduleBirthdaySong();
+  youtubeCommand('playVideo');
+  youtubeCommand('unMute');
+  youtubeCommand('setVolume');
   const musicControl=document.getElementById('musicControl');
   musicControl.classList.remove('off');
   musicControl.textContent='♫';
-  musicControl.title='Happy Birthday song — turn music off';
+  musicControl.title='Birthday tune — turn music off';
+  showToast('♫ Birthday tune is playing');
 }
 function stopMusic(){
   musicOn=false;
-  if(songTimer)clearTimeout(songTimer);
-  songTimer=null;
-  if(master&&audioCtx){master.gain.cancelScheduledValues(audioCtx.currentTime);master.gain.setValueAtTime(master.gain.value,audioCtx.currentTime);master.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.25)}
+  youtubeCommand('pauseVideo');
   const musicControl=document.getElementById('musicControl');
   musicControl.classList.add('off');
   musicControl.textContent='🔇';
-  musicControl.title='Play Happy Birthday song';
+  musicControl.title='Play birthday tune';
 }
 
 // Five-screen navigation — intentionally BUTTON ONLY.
@@ -118,7 +76,6 @@ function showPage(n,dir=1){
   dots.forEach((d,i)=>d.classList.toggle('active',i===current-1));
   if(dir>0)burst(current===5?180:70);
 }
-
 document.querySelectorAll('[data-next]').forEach(button=>button.addEventListener('click',()=>showPage(Number(button.dataset.next),1)));
 // Progress dots are visual only — no click navigation.
 dots.forEach(dot=>{dot.setAttribute('aria-hidden','true');dot.tabIndex=-1;dot.style.cursor='default'});
@@ -148,7 +105,6 @@ function enterExperience(){
   showPage(1);
 }
 enterBtn.onclick=enterExperience;
-
 document.getElementById('musicControl').onclick=()=>musicOn?stopMusic():startMusic();
 
 // Wish interaction: candle reacts, screen celebrates, and final chapter unlocks.
