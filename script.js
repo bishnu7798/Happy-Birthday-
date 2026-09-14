@@ -38,9 +38,9 @@ function burst(amount=100){for(let i=0;i<amount;i++){const el=document.createEle
 function showToast(text){toast.textContent=text;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3000)}
 
 // -----------------------------------------------------------------------------
-// REAL INTERACTIVE CAKE CUTTING
-// The visitor physically drags the hand-held knife across the cake.
-// Nothing cuts automatically.
+// SIMPLE TOUCH / MOUSE CAKE CUTTING
+// No hand icon, no knife icon, and no cutting graphic is shown.
+// The visitor simply touches or drags directly across the cake.
 // -----------------------------------------------------------------------------
 const wishBtn=document.getElementById('wishBtn');
 const wishResult=document.getElementById('wishResult');
@@ -51,63 +51,34 @@ const cutMessage=document.getElementById('cutMessage');
 let wished=false;
 let cutting=false;
 let cutComplete=false;
+let startX=0;
+let startY=0;
 
-// Add a polished SVG-style hand holding the knife. It is created in JS so the
-// existing HTML remains compatible with the previous version of the site.
-const hand=document.createElement('div');
-hand.className='interactive-hand';
-hand.setAttribute('aria-hidden','true');
-hand.innerHTML=`
-  <div class="hand-arm"></div>
-  <div class="hand-palm">
-    <span class="finger f1"></span><span class="finger f2"></span><span class="finger f3"></span><span class="finger f4"></span>
-    <span class="thumb"></span>
-  </div>
-  <div class="hand-knife"><span class="knife-blade"></span><span class="knife-handle"></span></div>`;
-cakeStage.appendChild(hand);
-
-// Instructions are also created dynamically.
+// Small instruction shown under the cake. It does not use any hand/knife icon.
 const cutHint=document.createElement('div');
 cutHint.className='cut-hint';
-cutHint.innerHTML='<span>☝</span> Drag the hand across the cake to cut it';
+cutHint.textContent='কেকের উপর আঙুল দিয়ে স্পর্শ বা একটু ড্রাগ করলেই কেক কেটে যাবে';
 cakeStage.appendChild(cutHint);
 
-// CSS for the hand, knife and actual slicing interaction.
 const interactiveStyle=document.createElement('style');
 interactiveStyle.textContent=`
 .cake-stage{touch-action:none;overflow:visible}
-.interactive-hand{position:absolute;z-index:20;right:6%;bottom:72px;width:190px;height:170px;pointer-events:none;transform:translate(115px,-15px) rotate(-7deg);transform-origin:75% 70%;transition:transform .35s ease,opacity .35s;filter:drop-shadow(0 15px 15px rgba(0,0,0,.28))}
-.hand-arm{position:absolute;right:-10px;bottom:5px;width:125px;height:70px;border-radius:55px 25px 25px 55px;background:linear-gradient(135deg,#f5b08d,#d77d62);transform:rotate(-18deg);box-shadow:inset 7px 5px 12px rgba(255,255,255,.18)}
-.hand-palm{position:absolute;right:53px;bottom:45px;width:78px;height:82px;border-radius:45% 50% 42% 48%;background:linear-gradient(145deg,#ffd0ae,#e99576);transform:rotate(-12deg);box-shadow:inset 8px 5px 12px rgba(255,255,255,.2)}
-.finger{position:absolute;width:22px;height:58px;border-radius:14px;background:linear-gradient(90deg,#ffc5a2,#df8a6c);top:-29px;box-shadow:inset 3px 0 5px rgba(255,255,255,.16)}
-.f1{left:7px;transform:rotate(8deg)}.f2{left:25px;top:-35px;transform:rotate(2deg)}.f3{left:43px;top:-31px;transform:rotate(-6deg)}.f4{left:59px;top:-22px;transform:rotate(-14deg)}
-.thumb{position:absolute;width:27px;height:51px;left:-17px;top:28px;border-radius:16px;background:linear-gradient(90deg,#e39172,#ffc3a0);transform:rotate(48deg)}
-.hand-knife{position:absolute;left:3px;top:18px;width:128px;height:30px;transform:rotate(-18deg);transform-origin:right center}
-.knife-blade{position:absolute;left:0;top:4px;width:103px;height:18px;border-radius:5px 3px 3px 5px;background:linear-gradient(180deg,#fff,#b8c0ca 48%,#f7f7f7);clip-path:polygon(0 0,100% 0,84% 100%,0 100%);box-shadow:0 2px 5px rgba(0,0,0,.35)}
-.knife-handle{position:absolute;right:0;top:1px;width:38px;height:25px;border-radius:5px 12px 12px 5px;background:linear-gradient(180deg,#3b3144,#17121c);box-shadow:inset 0 2px rgba(255,255,255,.16)}
-.cut-hint{position:absolute;z-index:21;left:50%;bottom:8px;transform:translateX(-50%);padding:10px 17px;border:1px solid rgba(255,255,255,.15);border-radius:999px;background:rgba(8,1,15,.7);backdrop-filter:blur(10px);font-size:.76rem;color:#f8eaf3;white-space:nowrap;transition:.3s;pointer-events:none}
-.cut-hint span{font-size:1rem;margin-right:7px}
-.cake-stage.ready-to-cut .interactive-hand{transform:translate(0,-10px) rotate(-7deg);opacity:1}
-.cake-stage.dragging .interactive-hand{transition:none}
+.cut-hint{position:absolute;z-index:21;left:50%;bottom:8px;transform:translateX(-50%);padding:10px 17px;border:1px solid rgba(255,255,255,.15);border-radius:999px;background:rgba(8,1,15,.7);backdrop-filter:blur(10px);font-size:.76rem;color:#f8eaf3;white-space:nowrap;transition:.3s;pointer-events:none;text-align:center}
 .cake-stage.dragging .cut-hint{opacity:.25}
-.cake-stage.cut-complete .interactive-hand{animation:handAfterCut .8s ease forwards}
 .cake-stage.cut-complete .cut-hint{opacity:0}
 .cake-stage.cut-complete .cake{animation:cakeCelebrate .65s ease}
 .cake-stage.cut-complete .top{animation:realSliceMove 1.1s .15s cubic-bezier(.2,.8,.2,1) forwards}
 .cake-stage.cut-complete .icing{animation:realSliceMove 1.1s .15s cubic-bezier(.2,.8,.2,1) forwards}
 .cake-stage.cut-complete .candle{animation:candleFall .8s .2s forwards}
-@keyframes handAfterCut{to{transform:translate(145px,-20px) rotate(-14deg);opacity:.15}}
 @keyframes realSliceMove{to{transform:translateX(65px) rotate(4deg);opacity:.72}}
 @keyframes cakeCelebrate{40%{transform:scale(1.055) translateY(-5px)}100%{transform:scale(1)}}
-@media(max-width:760px){.interactive-hand{right:-3%;bottom:65px;transform:translate(85px,-5px) scale(.82) rotate(-7deg)}.cake-stage.ready-to-cut .interactive-hand{transform:translate(-4px,-3px) scale(.82) rotate(-7deg)}.cut-hint{font-size:.68rem;max-width:92%;text-align:center}}
+@media(max-width:760px){.cut-hint{font-size:.68rem;max-width:92%;white-space:normal}}
 `;
 document.head.appendChild(interactiveStyle);
 
 function prepareCake(){
-  cakeStage.classList.remove('cutting','cut-complete','dragging');
+  cakeStage.classList.remove('dragging','cut-complete');
   cakeStage.classList.add('ready-to-cut');
-  hand.style.opacity='1';
-  cutHint.innerHTML='<span>☝</span> Drag the hand across the cake to cut it';
 }
 
 function completeCut(){
@@ -116,70 +87,72 @@ function completeCut(){
   cutting=false;
   cakeStage.classList.remove('dragging');
   cakeStage.classList.add('cut-complete');
-  wishResult.textContent='Beautiful! You cut the cake — now a sweet new chapter begins.';
+  wishResult.textContent='দারুণ! তুমি নিজেই কেক কেটে ফেলেছো — তোমার নতুন বছরটা মিষ্টি ও সুন্দর হোক।';
   cutMessage.classList.add('show');
   burst(220);
-  showToast('🎂 Cake cut! Your birthday wish is released.');
+  showToast('🎂 কেক কাটা হয়ে গেছে!');
   setTimeout(()=>afterWish.classList.remove('hidden'),900);
 }
 
-// Pressing Make the Wish prepares the cake. The cake does NOT cut yet.
-// The user must then drag the hand/knife across the cake.
+// Pressing the wish button only prepares the cake. The user then touches or
+// drags directly on the cake to complete the cut.
 wishBtn.addEventListener('click',()=>{
   if(wished)return;
   wished=true;
   wishBtn.disabled=true;
-  wishBtn.textContent='Now Cut the Cake';
-  wishResult.textContent='Your wish is safe now. Use your finger or mouse and drag the hand across the cake.';
+  wishBtn.textContent='এবার কেক কাটো';
+  wishResult.textContent='এখন কেকের উপর আঙুল দিয়ে একবার স্পর্শ করো অথবা একটু ড্রাগ করো।';
   prepareCake();
-  showToast('☝ Now drag the hand across the cake.');
+  showToast('কেকের উপর আঙুল দিয়ে স্পর্শ বা ড্রাগ করো');
 });
 
-// Pointer/touch cutting gesture. A horizontal swipe through the cake's center
-// is required before the slice animation is triggered.
+// Direct touch/mouse gesture on the cake. A simple touch inside the cake OR a
+// short drag across it is enough to trigger the cutting animation.
 cakeStage.addEventListener('pointerdown',e=>{
   if(!wished||cutComplete)return;
+  const rect=cake.getBoundingClientRect();
+  const inside=e.clientX>=rect.left-10 && e.clientX<=rect.right+10 && e.clientY>=rect.top-10 && e.clientY<=rect.bottom+10;
+  if(!inside)return;
   cutting=true;
+  startX=e.clientX;
+  startY=e.clientY;
   cakeStage.classList.add('dragging');
   cakeStage.setPointerCapture?.(e.pointerId);
-  hand.style.transform='translate(0,-5px) rotate(-10deg)';
 });
 
 cakeStage.addEventListener('pointermove',e=>{
   if(!cutting||cutComplete)return;
-  const rect=cakeStage.getBoundingClientRect();
-  const x=Math.max(0,Math.min(rect.width,e.clientX-rect.left));
-  const y=Math.max(0,Math.min(rect.height,e.clientY-rect.top));
-  const targetX=x-92;
-  const targetY=y-92;
-  hand.style.transform=`translate(${targetX}px,${targetY}px) rotate(-10deg)`;
-
-  const cakeRect=cake.getBoundingClientRect();
-  const withinVertical=e.clientY>cakeRect.top+cakeRect.height*.28 && e.clientY<cakeRect.bottom-cakeRect.height*.12;
-  const crossedCake=e.clientX>cakeRect.left+cakeRect.width*.12 && e.clientX<cakeRect.right-cakeRect.width*.05;
-  if(withinVertical&&crossedCake&&x>rect.width*.38){completeCut()}
+  const dx=e.clientX-startX;
+  const dy=e.clientY-startY;
+  const distance=Math.hypot(dx,dy);
+  // A tiny drag is enough; a direct tap is handled on pointerup.
+  if(distance>=18)completeCut();
 });
 
-function cancelCut(){
+cakeStage.addEventListener('pointerup',e=>{
   if(!cutting||cutComplete)return;
+  const dx=e.clientX-startX;
+  const dy=e.clientY-startY;
+  const distance=Math.hypot(dx,dy);
   cutting=false;
   cakeStage.classList.remove('dragging');
-  cakeStage.classList.add('ready-to-cut');
-  showToast('Try dragging the knife straight across the cake.');
-}
-cakeStage.addEventListener('pointerup',cancelCut);
-cakeStage.addEventListener('pointercancel',cancelCut);
+  if(distance<18)completeCut();
+});
+
+cakeStage.addEventListener('pointercancel',()=>{
+  cutting=false;
+  cakeStage.classList.remove('dragging');
+});
 
 // Start again is also manual: it returns to Page 01 only when clicked.
 document.getElementById('againBtn').addEventListener('click',()=>{
   window.scrollTo({top:0,behavior:'smooth'});
   showPage(1);
   wished=false;cutting=false;cutComplete=false;
-  wishBtn.disabled=false;wishBtn.textContent='Make the Wish';
-  wishResult.textContent='The candle is waiting for your wish...';
+  wishBtn.disabled=false;wishBtn.textContent='ইচ্ছে করে কেক কাটো';
+  wishResult.textContent='মোমবাতির আলো তোমার ইচ্ছের অপেক্ষায়...';
   cutMessage.classList.remove('show');afterWish.classList.add('hidden');
-  cakeStage.classList.remove('ready-to-cut','dragging','cut-complete','cutting');
-  hand.style.transform='translate(115px,-15px) rotate(-7deg)';
+  cakeStage.classList.remove('ready-to-cut','dragging','cut-complete');
   burst(100);
 });
 
